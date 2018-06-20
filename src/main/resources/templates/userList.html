@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:replace="fragments/head"></div>
+    <body>
+        <div th:replace="fragments/navbar"></div>
+        <div th:replace="fragments/category"></div>
+        <div class="content container">
+            <table class="table value">
+                <tr>
+                    <th>Nazwa użytkownika</th>
+                    <th>Akcje</th>
+                </tr>
+                <tr th:each="u : ${usernames}">
+                    <td class = "leftRow" th:text="${u}"></td>
+                    <td><a th:href="${'/deleteUser/' + u}">Usuń</a></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

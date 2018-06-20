@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.springframework.org/security/tags">
+    <div th:replace="fragments/head"></div>
+    <body>
+        <div th:replace="fragments/navbar"></div>
+        <div th:replace="fragments/category"></div>
+
+        <div class="content container">
+            <div th:if = "${not #lists.isEmpty(products)}">
+                <table class="table table-hover">
+                    <tr th:each="prod : ${products}">
+                        <td ><img th:src="${'data:image/jpeg;base64, ' + prod.image}" width="100" height="100"/></td>
+                        <td th:text = "${prod.name}"></td>
+                        <td th:text = "${'Ocena: ' + prod.rate}"></td>
+                        <td th:text = "${'Cena: ' + prod.price}"></td>
+                        <td><a th:href="${'/details/'+prod.id}">Szczegóły</a></td>
+                        <td><a sec:authorize="hasRole('ADMIN')"  th:href="${'/deleteProduct/'+prod.id}">Usuń produkt</a></td>
+                    </tr>
+                </table>
+            </div>
+            <a sec:authorize="hasRole('ADMIN')" th:if = "${search == null}"th:href="${'/addProduct/'+category}" class="form-control but" role="button">Dodaj produkt</a>
+            <div th:if = "${#lists.isEmpty(products)}">
+                <p>Brak wyników</p>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <div class="content container">
+        <form  class="addOpinion" method="POST" action="/addPost">
+            <input type="hidden" th:value="${threadId}" name = "threadId"/>
+            <div class="form-group">
+                <label for="op">Treść:</label>
+                <textarea rows="4" cols="50" class="form-control" id="op"  name="content"></textarea>
+
+            </div>
+            <input type="submit"  value = "Dodaj dodajOdpowiedz" class="form-control"/>
+        </form>
+    </div>
+</body>
+</html>

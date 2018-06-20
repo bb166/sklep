@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.springframework.org/security/tags">
+<div th:replace="fragments/head"></div>
+<body>
+    <div th:replace="fragments/navbar"></div>
+    <div th:replace="fragments/category"></div>
+    <div class="content container">
+        <div class="content container">
+            <div th:if="${!#lists.isEmpty(thread)}">
+                <table class="table value">
+
+                     <tr>
+                        <th>Nazwa tematu</th>
+                        <th>Autor</th>
+                        <th>Data utworzenia</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="t : ${thread}">
+                        <td class = "leftRow" th:text="${t.topic}"></td>
+                        <td th:text="${t.author}"></td>
+                        <td th:text="${t.date}"></td>
+                        <td><a th:href="${'/showThread/'+t.id}">Pokaż temat</a></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div th:if = "${#lists.isEmpty(thread)}">
+                Brak tematów
+            </div>
+        <a href="/addThread" sec:authorize="isAuthenticated()" class="form-control but" role="button" style="float: right;">Dodaj wątek</a>
+    </div>
+</body>
+</html>

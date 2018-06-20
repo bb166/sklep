@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.springframework.org/security/tags">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <div class="content container">
+        <table class="table value">
+            <tr th:each="p : ${post.postList}">
+                <td th:text="${p.content}" class = "leftRow" style="width:80%;"></td>
+                <td th:text="${p.author}"></td>
+            </tr>
+        </table>
+        <a th:href="${'/addPost/'+post.id}" sec:authorize="isAuthenticated()" class="form-control but" role="button" style="float: right;">Dodaj odpowiedź</a>
+    </div>
+</body>
+</html>

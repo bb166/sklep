@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.springframework.org/security/tags">
+    <div th:replace="fragments/head"></div>
+<body>
+    <div th:replace="fragments/navbar"></div>
+    <div th:replace="fragments/category"></div>
+    <div class="content container">
+        <div class="row">
+            <div class="column">
+                <img th:src="${'data:image/jpeg;base64, ' + prod.image}" width="400" height="500"/>
+            </div>
+            <div class="column">
+            <h3>Specyfikacja:</h3>
+                <p th:text="${prod.specification}"></p>
+            <h3>Rozmiary:</h3>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label th:class="${'btn btn-secondary active ' + (prod.size == 'XS' ? '' : 'disabled')}">
+                    <input type="radio" name="options" id="option1" autocomplete="off">
+                    XS
+                </label>
+                <label th:class="${'btn btn-secondary active ' + (prod.size == 'S' ? '' : 'disabled')}">
+                    <input type="radio" name="options" id="option2" autocomplete="off">
+                    S
+                </label>
+                <label th:class="${'btn btn-secondary active ' + (prod.size == 'M' ? '' : 'disabled')}">
+                    <input type="radio" name="options" id="option3" autocomplete="off">
+                    M
+                </label>
+                <label th:class="${'btn btn-secondary active ' + (prod.size == 'L' ? '' : 'disabled')}">
+                    <input type="radio" name="options" id="option4" autocomplete="off">
+                    L
+                </label>
+                <label th:class="${'btn btn-secondary active ' + (prod.size == 'XL' ? '' : 'disabled')}">
+                    <input type="radio" name="options" id="option5" autocomplete="off">
+                    XL
+                </label>
+            </div>
+            <div>
+                <h4 th:text="${'Liczba dostępnych sztuk: ' + prod.availableCount}"></h4>
+            </div>
+                <a sec:authorize="isAuthenticated()" th:if = "${prod.availableCount != '0'}" th:href="${'/insertToBasket/'+prod.id}"
+                   class="form-control but" role="button">Dodaj do koszyka</a>
+        </div>
+    </div>
+    <p class = "opinionLabel">Opinie: użytkowników:</p>
+    <table class="table value">
+        <tr>
+            <th>Opinia</th>
+            <th>Nazwa użytkownika</th>
+            <th>Wartość</th>
+        </tr>
+        <tr th:each="o : ${opinions}">
+            <td class = "leftRow" th:text="${o.comment}"></td>
+            <td th:text="${o.user}"></td>
+            <td th:text="${o.value}"></td>
+        </tr>
+    </table>
+    <form sec:authorize="isAuthenticated()" class="addOpinion" method="POST" action="/addOpinion">
+        <input type="hidden" name = "productId" th:value="${id}">
+        <div class="form-group">
+            <label for="op">Opinia:</label>
+            <textarea rows="4" cols="50" class="form-control" id="op" name="comment"></textarea>
+
+            <label for="sel1">Ocena:</label>
+            <select class="form-control" id="sel1" name="value">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <input type="submit"  value = "Wyślij" class="form-control"/>
+    </form>
+    </div>
+</body>
+</html>

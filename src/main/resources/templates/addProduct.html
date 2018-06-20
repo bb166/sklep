@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <form class="log" enctype="multipart/form-data" method="post" action="/addProduct">
+        <input type="hidden" name="category" th:value="${category}">
+        <label for="op">Nazwa produktu:</label>
+        <input type="text" class="form-control" name="name">
+        <label for="op">Zdjęcie produktu:</label>
+        <input type="file" class="form-control" name="imagef">
+        <label for="op">Specyfikacja:</label>
+        <textarea rows="4" cols="50" class="form-control" id="op" name="specification"></textarea>
+        <label for="op">Liczba dostępnych sztuk:</label>
+        <input type="text" class="form-control" name="availableCount">
+        <label for="op">Cena:</label>
+        <input type="text" class="form-control" name="price">
+        <label for="sel1">Rozmiar:</label>
+        <select class="form-control" id="sel1" name="size">
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+        <input type="submit" class="form-control but" value="Dodaj produkt">
+    </form>
+</div>
+</body>
+</html>

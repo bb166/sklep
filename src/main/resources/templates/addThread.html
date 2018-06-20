@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+    <div class="content container">
+        <h4 th:if="${threadAlreadyExist ne null}" style="color: red; text-align: center;">Temat o podanej nazwie już istnieje</h4>
+        <form  class="addOpinion" method="POST" action="/addThread">
+            <input type="hidden" name = "productId" >
+            <div class="form-group">
+                <label for="sel1">Nazwa tematu:</label>
+                <input id= "sel1" type="text" class="form-control" name = "topic"/>
+                <label for="op">Treść:</label>
+                <textarea rows="4" cols="50" class="form-control" id="op" name = "content"></textarea>
+
+            </div>
+            <input type="submit"  value = "Dodaj temat" class="form-control"/>
+        </form>
+    </div>
+</body>
+</html>
