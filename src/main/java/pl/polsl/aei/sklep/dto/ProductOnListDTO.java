@@ -6,6 +6,7 @@ public class ProductOnListDTO {
     private String rate;
     private String price;
     private String image;
+    private String size;
 
     public ProductOnListDTO() {}
 
@@ -47,5 +48,13 @@ public class ProductOnListDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

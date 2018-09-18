@@ -1,18 +1,15 @@
 package pl.polsl.aei.sklep.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.FileSystemUtils;
 import pl.polsl.aei.sklep.repository.*;
 import pl.polsl.aei.sklep.repository.entity.*;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -59,7 +56,7 @@ public class DatabaseInitialization {
         User user = userRepository.findUserByUsername("krzysztofNowak");
 
         Rate rate = new Rate();
-        rate.setComment("Zajebiscie w chuj! Polecam w chuj");
+        rate.setComment("Polecam!");
         rate.setValue(5d);
         rate.setUser(user);
 
@@ -69,17 +66,17 @@ public class DatabaseInitialization {
         rateRepository.save(rate);
     }
 
-    private void insertRecordsToWarehouseRelation() throws Exception{
+    private void insertRecordsToWarehouseRelation() throws Exception {
         Series series = new Series();
         series.setBuyCost(BigDecimal.valueOf(31.11));
         series.setName("Seria pierwsza");
 
-        Warehouse warehouse = new Warehouse();
-        warehouse.setQuantity(44L);
-        warehouse.setSaleCost(BigDecimal.valueOf(12.11));
-        warehouse.setSeries(series);
-        warehouse.setSize(
-                sizeRepository.findSizeByName("M")
+        Warehouse warehouseCzapka2XS = new Warehouse();
+        warehouseCzapka2XS.setQuantity(44L);
+        warehouseCzapka2XS.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2XS.setSeries(series);
+        warehouseCzapka2XS.setSize(
+                sizeRepository.findSizeByName("XS")
         );
 
         byte[] hat1 = FileCopyUtils.copyToByteArray(new ClassPathResource("/template-data/hat1.jpg").getInputStream());
@@ -93,35 +90,105 @@ public class DatabaseInitialization {
 
         Category category = categoryRepository.findCategoryByName("Głowa");
 
-        Product product = new Product();
-        product.setName("Czapka 2");
-        product.setSex("M");
-        product.setImage(hat2);
-        product.setCategory(category);
-        product.setWarehouse(Collections.singleton(warehouse));
-        product.setSpecification("Testowa specyfikacja 1");
-        warehouse.setProduct(product);
+        Warehouse warehouseCzapka2S = new Warehouse();
+        warehouseCzapka2S.setQuantity(44L);
+        warehouseCzapka2S.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2S.setSeries(series);
+        warehouseCzapka2S.setSize(
+                sizeRepository.findSizeByName("S")
+        );
+        Warehouse warehouseCzapka2M = new Warehouse();
+        warehouseCzapka2M.setQuantity(44L);
+        warehouseCzapka2M.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2M.setSeries(series);
+        warehouseCzapka2M.setSize(
+                sizeRepository.findSizeByName("M")
+        );
+        Warehouse warehouseCzapka2L = new Warehouse();
+        warehouseCzapka2L.setQuantity(44L);
+        warehouseCzapka2L.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2L.setSeries(series);
+        warehouseCzapka2L.setSize(
+                sizeRepository.findSizeByName("L")
+        );
+        Warehouse warehouseCzapka2XL = new Warehouse();
+        warehouseCzapka2XL.setQuantity(44L);
+        warehouseCzapka2XL.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2XL.setSeries(series);
+        warehouseCzapka2XL.setSize(
+                sizeRepository.findSizeByName("XL")
+        );
+
+        Product czapka2 = new Product();
+        czapka2.setName("Czapka 2");
+        czapka2.setSex("M");
+        czapka2.setImage(hat2);
+        czapka2.setCategory(category);
+        czapka2.setWarehouse(new HashSet<>(Arrays.asList(warehouseCzapka2XS, warehouseCzapka2S, warehouseCzapka2M, warehouseCzapka2L, warehouseCzapka2XL)));
+        czapka2.setSpecification("Testowa specyfikacja 1");
+        warehouseCzapka2S.setProduct(czapka2);
+        warehouseCzapka2M.setProduct(czapka2);
+        warehouseCzapka2L.setProduct(czapka2);
+        warehouseCzapka2XL.setProduct(czapka2);
+        warehouseCzapka2XS.setProduct(czapka2);
+
 
         Series series1 = new Series();
         series1.setBuyCost(BigDecimal.valueOf(8.00));
         series1.setName("Seria jakaś tam");
 
-        Warehouse warehouse1 = new Warehouse();
-        warehouse1.setQuantity(31L);
-        warehouse1.setSaleCost(BigDecimal.valueOf(9.11));
-        warehouse1.setSeries(series1);
-        warehouse1.setSize(
+        Warehouse warehouseCzapka1L = new Warehouse();
+        warehouseCzapka1L.setQuantity(31L);
+        warehouseCzapka1L.setSaleCost(BigDecimal.valueOf(9.11));
+        warehouseCzapka1L.setSeries(series1);
+        warehouseCzapka1L.setSize(
                 sizeRepository.findSizeByName("L")
         );
 
-        Product product1 = new Product();
-        product1.setName("Czapka 1");
-        product1.setSex("K");
-        product1.setImage(hat1);
-        product1.setCategory(category);
-        product1.setWarehouse(Collections.singleton(warehouse1));
-        product1.setSpecification("Testtowa specyfikacja do kapelusza");
-        warehouse1.setProduct(product1);
+        Warehouse warehouseCzapka1XS = new Warehouse();
+        warehouseCzapka1XS.setQuantity(31L);
+        warehouseCzapka1XS.setSaleCost(BigDecimal.valueOf(9.11));
+        warehouseCzapka1XS.setSeries(series1);
+        warehouseCzapka1XS.setSize(
+                sizeRepository.findSizeByName("XS")
+        );
+
+        Warehouse warehouseCzapka1S = new Warehouse();
+        warehouseCzapka1S.setQuantity(31L);
+        warehouseCzapka1S.setSaleCost(BigDecimal.valueOf(9.11));
+        warehouseCzapka1S.setSeries(series1);
+        warehouseCzapka1S.setSize(
+                sizeRepository.findSizeByName("S")
+        );
+
+        Warehouse warehouseCzapka1M = new Warehouse();
+        warehouseCzapka1M.setQuantity(31L);
+        warehouseCzapka1M.setSaleCost(BigDecimal.valueOf(9.11));
+        warehouseCzapka1M.setSeries(series1);
+        warehouseCzapka1M.setSize(
+                sizeRepository.findSizeByName("M")
+        );
+
+        Warehouse warehouseCzapka1XL = new Warehouse();
+        warehouseCzapka1XL.setQuantity(31L);
+        warehouseCzapka1XL.setSaleCost(BigDecimal.valueOf(9.11));
+        warehouseCzapka1XL.setSeries(series1);
+        warehouseCzapka1XL.setSize(
+                sizeRepository.findSizeByName("XL")
+        );
+
+        Product czapka1 = new Product();
+        czapka1.setName("Czapka 1");
+        czapka1.setSex("K");
+        czapka1.setImage(hat1);
+        czapka1.setCategory(category);
+        czapka1.setWarehouse(new HashSet<>(Arrays.asList(warehouseCzapka1XS, warehouseCzapka1S, warehouseCzapka1M, warehouseCzapka1L, warehouseCzapka1XL)));
+        czapka1.setSpecification("Testowa specyfikacja do kapelusza");
+        warehouseCzapka1XS.setProduct(czapka1);
+        warehouseCzapka1S.setProduct(czapka1);
+        warehouseCzapka1L.setProduct(czapka1);
+        warehouseCzapka1M.setProduct(czapka1);
+        warehouseCzapka1XL.setProduct(czapka1);
 
         Category category1 = categoryRepository.findCategoryByName("Nogi");
 
@@ -129,22 +196,48 @@ public class DatabaseInitialization {
         series2.setName("Seria z chin");
         series2.setBuyCost(BigDecimal.valueOf(10.11));
 
-        Warehouse warehouse2 = new Warehouse();
-        warehouse2.setQuantity(5L);
-        warehouse2.setSaleCost(BigDecimal.valueOf(50.11));
-        warehouse2.setSeries(series2);
-        warehouse2.setSize(
-                sizeRepository.findSizeByName("S")
-        );
+        Warehouse warehouseSpodnie1XS = new Warehouse();
+        warehouseSpodnie1XS.setQuantity(5L);
+        warehouseSpodnie1XS.setSaleCost(BigDecimal.valueOf(50.11));
+        warehouseSpodnie1XS.setSeries(series2);
+        warehouseSpodnie1XS.setSize(sizeRepository.findSizeByName("XS"));
 
-        Product trousersp1 = new Product();
-        trousersp1.setCategory(category1);
-        trousersp1.setWarehouse(Collections.singleton(warehouse2));
-        trousersp1.setImage(trousers1);
-        trousersp1.setSex("M");
-        trousersp1.setName("Spodnie fajne 1");
-        trousersp1.setSpecification("Testowa specyfikacja spodni");
-        warehouse2.setProduct(trousersp1);
+        Warehouse warehouseSpodnie1S = new Warehouse();
+        warehouseSpodnie1S.setQuantity(5L);
+        warehouseSpodnie1S.setSaleCost(BigDecimal.valueOf(50.11));
+        warehouseSpodnie1S.setSeries(series2);
+        warehouseSpodnie1S.setSize(sizeRepository.findSizeByName("S"));
+
+        Warehouse warehouseSpodnie1M = new Warehouse();
+        warehouseSpodnie1M.setQuantity(5L);
+        warehouseSpodnie1M.setSaleCost(BigDecimal.valueOf(50.11));
+        warehouseSpodnie1M.setSeries(series2);
+        warehouseSpodnie1M.setSize(sizeRepository.findSizeByName("M"));
+
+        Warehouse warehouseSpodnie1L = new Warehouse();
+        warehouseSpodnie1L.setQuantity(5L);
+        warehouseSpodnie1L.setSaleCost(BigDecimal.valueOf(50.11));
+        warehouseSpodnie1L.setSeries(series2);
+        warehouseSpodnie1L.setSize(sizeRepository.findSizeByName("L"));
+
+        Warehouse warehouseSpodnie1XL = new Warehouse();
+        warehouseSpodnie1XL.setQuantity(5L);
+        warehouseSpodnie1XL.setSaleCost(BigDecimal.valueOf(50.11));
+        warehouseSpodnie1XL.setSeries(series2);
+        warehouseSpodnie1XL.setSize(sizeRepository.findSizeByName("XL"));
+
+        Product spodnie1 = new Product();
+        spodnie1.setCategory(category1);
+        spodnie1.setWarehouse(new HashSet<>(Arrays.asList(warehouseSpodnie1XS, warehouseSpodnie1S, warehouseSpodnie1M, warehouseSpodnie1L, warehouseSpodnie1XL)));
+        spodnie1.setImage(trousers1);
+        spodnie1.setSex("M");
+        spodnie1.setName("Spodnie fajne 1");
+        spodnie1.setSpecification("Testowa specyfikacja spodni");
+        warehouseSpodnie1XS.setProduct(spodnie1);
+        warehouseSpodnie1S.setProduct(spodnie1);
+        warehouseSpodnie1M.setProduct(spodnie1);
+        warehouseSpodnie1L.setProduct(spodnie1);
+        warehouseSpodnie1XL.setProduct(spodnie1);
 
         Series series3 = new Series();
         series3.setName("Seria z turcji");
@@ -199,7 +292,7 @@ public class DatabaseInitialization {
         warehouse5.setSaleCost(BigDecimal.valueOf(59.22));
         warehouse5.setSeries(series5);
         warehouse5.setSize(
-               sizeRepository.findSizeByName("M")
+                sizeRepository.findSizeByName("M")
         );
 
         Product shirtp2 = new Product();
@@ -255,9 +348,9 @@ public class DatabaseInitialization {
         shoep2.setSpecification("Testowa specyfikacja do  butow 2134");
         warehouse7.setProduct(shoep2);
 
-        productRepository.save(product);
-        productRepository.save(product1);
-        productRepository.save(trousersp1);
+        productRepository.save(czapka2);
+        productRepository.save(czapka1);
+        productRepository.save(spodnie1);
         productRepository.save(trousersp2);
         productRepository.save(shirtp1);
         productRepository.save(shirtp2);
@@ -290,7 +383,6 @@ public class DatabaseInitialization {
         userRepository.save(janKowalski);
         userRepository.save(krzysztofNowak);
     }
-
 
 
     private void insertRecordsToBoardRelation() {

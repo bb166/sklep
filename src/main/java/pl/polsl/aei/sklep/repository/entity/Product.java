@@ -22,7 +22,7 @@ public class Product {
     @Column(name = "plec")
     private String sex;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product" ,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Warehouse> warehouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -118,8 +118,7 @@ public class Product {
         return Objects.hash(id, name, sex);
     }
 
-    public static ProductOnListDTO productOnListMapper(Product product) {
-
+    public static ProductOnListDTO productOnListMapper(Product product, String size) {
         ProductOnListDTO productOnListDTO = new ProductOnListDTO();
         productOnListDTO.setName(product.getName());
 
@@ -140,7 +139,7 @@ public class Product {
                         .getSaleCost()));
 
         productOnListDTO.setImage(Base64.getEncoder().encodeToString(product.getImage()));
-
+        productOnListDTO.setSize(size);
         return productOnListDTO;
     }
 }

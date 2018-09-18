@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.polsl.aei.sklep.service.BasketService;
 
@@ -28,11 +29,14 @@ public class BasketController {
 
         return modelAndView;
     }
+
     @RequestMapping("/insertToBasket/{id}")
-    public ModelAndView insertToBasket(Principal principal, @PathVariable Long id) {
-        basketService.insertProductToBasket(id, principal.getName());
-        return new ModelAndView("redirect:/details/"+id);
+    public ModelAndView insertToBasket(Principal principal, @PathVariable Long id, @RequestParam String size) {
+
+        basketService.insertProductToBasket(id, principal.getName(), size);
+        return new ModelAndView("redirect:/details/" + id);
     }
+
     @RequestMapping("/acceptOrder")
     public ModelAndView acceptOrder(Principal principal) {
         ModelAndView modelAndView = new ModelAndView();

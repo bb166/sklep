@@ -5,7 +5,7 @@ import pl.polsl.aei.sklep.dto.ProductOnListDTO;
 import java.util.List;
 
 public interface BasketService {
-    void insertProductToBasket(Long productId, String username);
+    void insertProductToBasket(Long productId, String username, String size);
     List<ProductOnListDTO> getBasketForUser(String userName);
     void acceptOrder(String username);
 }

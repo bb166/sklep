@@ -103,6 +103,6 @@ public class Warehouse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, quantity, saleCost);
+        return Objects.hash(id, quantity, saleCost, size);
     }
 }

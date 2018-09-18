@@ -51,7 +51,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public void insertProductToBasket(Long productId, String username) {
+    public void insertProductToBasket(Long productId, String username, String size) {
         productRepository
                 .findById(productId)
                 .ifPresent(e -> {
@@ -67,7 +67,8 @@ public class BasketServiceImpl implements BasketService {
                         orderRepository.save(userOrder);
                     }
 
-                    Warehouse warehouse = e.getWarehouse().iterator().next();
+                    Warehouse warehouse = e.getWarehouse().stream()
+                            .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).findAny().get();
                     warehouse.setQuantity(warehouse.getQuantity() - 1);
 
                     ProductOrder productOrder = new ProductOrder();
@@ -93,7 +94,7 @@ public class BasketServiceImpl implements BasketService {
 
         return order.getProductOrder()
                 .stream()
-                .map(e -> Product.productOnListMapper(e.getWarehouse().getProduct()))
+                .map(e -> Product.productOnListMapper(e.getWarehouse().getProduct(), e.getWarehouse().getSize().getName()))
                 .collect(Collectors.toList());
     }
 

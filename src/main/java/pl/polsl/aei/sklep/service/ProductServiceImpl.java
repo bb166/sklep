@@ -12,7 +12,6 @@ import pl.polsl.aei.sklep.repository.entity.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findProductsByNameContaining(query)
                 .stream()
-                .map(Product::productOnListMapper)
+                .map(product -> product.productOnListMapper(product, null))
                 .collect(Collectors.toList());
     }
 
@@ -125,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
         return categoryRepository.findCategoryByName(categoryName.getName())
                 .getProducts()
                 .stream()
-                .map(Product::productOnListMapper)
+                .map(product -> product.productOnListMapper(product, null))
                 .collect(Collectors.toList());
     }
 }
