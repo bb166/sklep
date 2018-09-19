@@ -39,6 +39,17 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product", cascade = CascadeType.ALL)
     private Set<Rate> rates;
 
+    @Column(name = "deleted")
+    private boolean isDeleted = false;
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void delete() {
+        isDeleted = true;
+    }
+
     public Long getId() {
         return id;
     }
