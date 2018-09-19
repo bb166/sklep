@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.aei.sklep.dto.OpinionDTO;
 import pl.polsl.aei.sklep.dto.ProductDetailsDTO;
+import pl.polsl.aei.sklep.dto.WarehouseDTO;
 import pl.polsl.aei.sklep.service.OpinionService;
 import pl.polsl.aei.sklep.service.ProductService;
 
@@ -65,6 +66,23 @@ public class DetailsController {
         modelAndView.addObject("category",category);
 
         return modelAndView;
+    }
+
+    @RequestMapping("/addWarehouse/{productId}")
+    public ModelAndView showAddWarehouse(@PathVariable Long productId) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("addWarehouse");
+        modelAndView.addObject("productId", productId);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/addWarehouse", method = RequestMethod.POST)
+    public String addWarehouse(WarehouseDTO dto, Long productId) {
+        productService.insertWarehouseToProduct(productId, dto);
+
+        return "redirect:/details/"+productId;
     }
 
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)

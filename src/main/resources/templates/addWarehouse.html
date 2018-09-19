@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <form class="log" method="post" action="/addWarehouse">
+        <input type="hidden" name="productId" th:value="${productId}">
+        <label for="ac">Liczba dostępnych sztuk:</label>
+        <input type="text" class="form-control" name="quantity" id = "ac">
+        <label for="bc">Cena zakupu:</label>
+        <input type="text" class="form-control" name="buyCost" id = "bc">
+        <label for="sel1">Rozmiar:</label>
+        <select class="form-control" id="sel1" name="size">
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+        <input type="submit" class="form-control but" value="Dodaj produkt">
+    </form>
+</div>
+</body>
+</html>

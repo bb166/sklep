@@ -2,6 +2,7 @@ package pl.polsl.aei.sklep.service;
 
 import pl.polsl.aei.sklep.dto.ProductDetailsDTO;
 import pl.polsl.aei.sklep.dto.ProductOnListDTO;
+import pl.polsl.aei.sklep.dto.WarehouseDTO;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public interface ProductService {
     Optional<ProductDetailsDTO> getDetailsById(Long id);
     void insertProductToGroup(String group, ProductDetailsDTO productDetailsDTO, byte[] image) throws IOException;
     void deleteProduct(Long productId);
+    void insertWarehouseToProduct(Long productId, WarehouseDTO dto);
 
     enum CategoryName {
         HEAD("Głowa","glowa"), TORSO("Tółw","tolw"), LEGS("Nogi","nogi"), FEETS("Stopy", "stopy");

@@ -71,6 +71,8 @@ public class BasketServiceImpl implements BasketService {
                             .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).findAny().get();
                     warehouse.setQuantity(warehouse.getQuantity() - 1);
 
+                    warehouseRepository.save(warehouse);
+
                     ProductOrder productOrder = new ProductOrder();
                     productOrder.setQuantity(1L);
                     productOrder.setOrder(userOrder);

@@ -15,23 +15,23 @@
             <p th:text="${prod.specification}"></p>
             <h3>Rozmiary:</h3>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label th:class="${'btn btn-secondary active ' + (prod.size == 'XS' ? '' : 'disabled')}">
+                <label th:class="${'btn btn-secondary' + (prod.size == 'XS' ? '' : ' disabled')}">
                     <input type="radio" name="options" id="XS" autocomplete="off">
                     XS
                 </label>
-                <label th:class="${'btn btn-secondary active ' + (prod.size == 'S' ? '' : 'disabled')}">
+                <label th:class="${'btn btn-secondary' + (prod.size == 'S' ? '' : ' disabled')}">
                     <input type="radio" name="options" id="S" autocomplete="off">
                     S
                 </label>
-                <label th:class="${'btn btn-secondary active ' + (prod.size == 'M' ? '' : 'disabled')}">
+                <label th:class="${'btn btn-secondary' + (prod.size == 'M' ? '' : ' disabled')}">
                     <input type="radio" name="options" id="M" autocomplete="off">
                     M
                 </label>
-                <label th:class="${'btn btn-secondary active ' + (prod.size == 'L' ? '' : 'disabled')}">
+                <label th:class="${'btn btn-secondary' + (prod.size == 'L' ? '' : ' disabled')}">
                     <input type="radio" name="options" id="L" autocomplete="off">
                     L
                 </label>
-                <label th:class="${'btn btn-secondary active ' + (prod.size == 'XL' ? '' : 'disabled')}">
+                <label th:class="${'btn btn-secondary' + (prod.size == 'XL' ? '' : ' disabled')}">
                     <input type="radio" name="options" id="XL" autocomplete="off">
                     XL
                 </label>
@@ -41,6 +41,8 @@
             </div>
             <a id="funkcja" sec:authorize="isAuthenticated()" th:if="${prod.availableCount != '0'}"
                class="form-control but" role="button">Dodaj do koszyka</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="${'/addWarehouse/'+prod.id}"
+               class="form-control but" role="button">Dodaj partie</a>
         </div>
     </div>
     <p class="opinionLabel">Opinie: użytkowników:</p>

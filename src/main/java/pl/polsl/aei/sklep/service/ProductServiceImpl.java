@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.aei.sklep.dto.ProductDetailsDTO;
 import pl.polsl.aei.sklep.dto.ProductOnListDTO;
+import pl.polsl.aei.sklep.dto.WarehouseDTO;
 import pl.polsl.aei.sklep.repository.CategoryRepository;
 import pl.polsl.aei.sklep.repository.ProductRepository;
 import pl.polsl.aei.sklep.repository.SizeRepository;
+import pl.polsl.aei.sklep.repository.WarehouseRepository;
 import pl.polsl.aei.sklep.repository.entity.*;
 
 import javax.imageio.ImageIO;
@@ -28,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
     private SizeRepository sizeRepository;
+    private WarehouseRepository warehouseRepository;
     private Base64.Encoder encoder = Base64.getEncoder();
 
     @Autowired
@@ -43,6 +46,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public void setCategoryRepository(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }
+
+    @Autowired
+    public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
@@ -97,6 +105,31 @@ public class ProductServiceImpl implements ProductService {
         series.setWarehouseSet(Collections.singleton(warehouse));
 
         productRepository.save(product);
+    }
+
+    public void insertWarehouseToProduct(Long productId, WarehouseDTO dto) {
+        Size size = sizeRepository.findSizeByName(dto.getSize());
+        Optional<Product> product = productRepository.findById(productId);
+
+        product.ifPresent(e -> {
+            Optional<Warehouse> first = e.getWarehouse().stream().findAny();
+
+            Warehouse warehouse = new Warehouse();
+            warehouse.setQuantity(dto.getQuantity());
+            warehouse.setProduct(e);
+            first.ifPresent(e1 -> warehouse.setSaleCost(e1.getSaleCost()));
+            warehouse.setSize(size);
+
+            Series series = new Series();
+            series.setBuyCost(dto.getBuyCost());
+            series.setName("Domyślna seria");
+            warehouse.setSeries(series);
+
+            e.getWarehouse().add(warehouse);
+            productRepository.save(e);
+        });
+
+
     }
 
     private byte[] resizeImageFromBytes(byte[] image, int width, int height) throws IOException{
