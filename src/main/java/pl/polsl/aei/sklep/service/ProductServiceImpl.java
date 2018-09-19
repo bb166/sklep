@@ -58,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository
                 .findProductsByNameContaining(query)
                 .stream()
+                .filter(product -> !product.isDeleted())
                 .map(product -> product.productOnListMapper(product, null))
                 .collect(Collectors.toList());
     }
@@ -83,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
     public void insertProductToGroup(String group, ProductDetailsDTO productDetailsDTO, byte[] image) throws IOException {
         Size size = sizeRepository.findSizeByName(productDetailsDTO.getSize());
         Category category = categoryRepository.findCategoryByName(ProductService.CategoryName.findByDenormalizeName(group).getName());
-        byte[] img = resizeImageFromBytes(image, 500,500);
+        byte[] img = resizeImageFromBytes(image, 500, 500);
 
         Product product = new Product();
         product.setSpecification(productDetailsDTO.getSpecification());
@@ -128,14 +129,13 @@ public class ProductServiceImpl implements ProductService {
             e.getWarehouse().add(warehouse);
             productRepository.save(e);
         });
-
-
     }
 
     private byte[] resizeImageFromBytes(byte[] image, int width, int height) throws IOException{
+
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = bufferedImage.createGraphics();
-        g2.drawImage(ImageIO.read(new ByteArrayInputStream(image)), 0,0,width, height, null);
+        g2.drawImage(ImageIO.read(new ByteArrayInputStream(image)), 0, 0, width, height, null);
         g2.dispose();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -149,7 +149,10 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long productId) {
         productRepository
                 .findById(productId)
-                .ifPresent(e -> productRepository.delete(e));
+                .ifPresent(product -> {
+                    product.delete();
+                    productRepository.save(product);
+                });
     }
 
     @Override
@@ -157,6 +160,7 @@ public class ProductServiceImpl implements ProductService {
         return categoryRepository.findCategoryByName(categoryName.getName())
                 .getProducts()
                 .stream()
+                .filter(product -> !product.isDeleted())
                 .map(product -> product.productOnListMapper(product, null))
                 .collect(Collectors.toList());
     }
