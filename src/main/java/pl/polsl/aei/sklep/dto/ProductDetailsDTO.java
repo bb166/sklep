@@ -4,6 +4,7 @@ public class ProductDetailsDTO {
     private String id;
     private String image;
     private String price;
+    private String buyCost;
     private String name;
     private String specification;
     private String availableCount;
@@ -15,6 +16,14 @@ public class ProductDetailsDTO {
 
     public void setPrice(String price) {
         this.price = price;
+    }
+
+    public String getBuyCost() {
+        return buyCost;
+    }
+
+    public void setBuyCost(String buyCost) {
+        this.buyCost = buyCost;
     }
 
     public String getName() {

@@ -98,7 +98,8 @@ public class Warehouse {
         Warehouse warehouse = (Warehouse) o;
         return Objects.equals(id, warehouse.id) &&
                 Objects.equals(quantity, warehouse.quantity) &&
-                Objects.equals(saleCost, warehouse.saleCost);
+                Objects.equals(saleCost, warehouse.saleCost) &&
+                Objects.equals(size, warehouse.size);
     }
 
     @Override
