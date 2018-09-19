@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         warehouse.setProduct(product);
 
         Series series = new Series();
-        series.setBuyCost(new BigDecimal(productDetailsDTO.getPrice()));
+        series.setBuyCost(new BigDecimal(productDetailsDTO.getBuyCost()));
         series.setName("Domyślna seria");
         warehouse.setSeries(series);
         series.setWarehouseSet(Collections.singleton(warehouse));
