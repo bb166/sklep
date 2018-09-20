@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <div class="row">
+        <div class="column">
+            <div>
+                <h4 th:text="${'Całkowita liczba sprzedanych produktów: ' + quantity}"></h4>
+            </div>
+            <div>
+                <h4 th:text="${'Zysk całkowity: ' + profit}"></h4>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -105,7 +105,8 @@ public class BasketServiceImpl implements BasketService {
         User user = userRepository.findUserByUsername(username);
         Order order = orderRepository.findOrderByUserAndOrderDateIsNull(user);
         order.setOrderDate(new Date());
-
+        order.setTotalCost(BigDecimal.valueOf(order.getProductOrder().stream()
+                .mapToDouble(value -> value.getWarehouse().getSaleCost().doubleValue()).sum())); // TODO: MOŻNA POMINĄĆ KONWERSJE
         orderRepository.save(order);
     }
 }

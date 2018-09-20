@@ -72,8 +72,9 @@ public class ProductServiceImpl implements ProductService {
             productDetailsDTO.setImage(encoder.encodeToString(product.getImage()));
             productDetailsDTO.setSpecification(product.getSpecification());
 
+            Long quantity = product.getWarehouse().stream().mapToLong(Warehouse::getQuantity).sum();
             Warehouse warehouse = product.getWarehouse().iterator().next();
-            productDetailsDTO.setAvailableCount(warehouse.getQuantity().toString());
+            productDetailsDTO.setAvailableCount(quantity.toString());
             productDetailsDTO.setSize(warehouse.getSize().getName());
 
             return productDetailsDTO;
