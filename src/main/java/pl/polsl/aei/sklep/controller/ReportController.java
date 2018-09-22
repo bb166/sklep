@@ -25,17 +25,29 @@ public class ReportController {
         this.orderRepository = orderRepository;
     }
 
-    @RequestMapping(value = "/report")
-    public ModelAndView showReport() {
+    @RequestMapping(value = "/selectReport")
+    public ModelAndView selectReport() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("selectReport");
 
         return modelAndView;
     }
 
+    @RequestMapping(value = "/report")
+    public ModelAndView showSelectGeneralProfitReport(@RequestParam String type) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (type.equals("general")) {
+            modelAndView.setViewName("selectGeneralReport");
+        }
+        if (type.equals("product")) {
+            modelAndView.setViewName("selectProductReport");
+        }
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/generalreport", method = RequestMethod.POST)
-    public ModelAndView showGeneralProfitReport(@RequestParam @DateTimeFormat(pattern = "MM-dd-yyyy") Date dateFrom,
-                                                @RequestParam @DateTimeFormat(pattern = "MM-dd-yyyy") Date dateTo) {
+    public ModelAndView showGeneralProfitReport(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) {
         ModelAndView modelAndView = new ModelAndView();
         List<Order> orders = orderRepository.findAllByOrderDateBetween(dateFrom, dateTo);
         Long quantity = orders.stream().flatMap(
@@ -61,7 +73,7 @@ public class ReportController {
         List<Order> orders = orderRepository.findAllByOrderDateBetween(dateFrom, dateTo);
         Long quantity = orders.stream().flatMap(order -> order.getProductOrder().stream()
                 .filter(productOrder -> productOrder.getWarehouse().getProduct().getId().equals(productId)))
-                .mapToLong(value -> value.getQuantity()).sum();
+                .mapToLong(ProductOrder::getQuantity).sum();
         BigDecimal profit = BigDecimal.ZERO;
         for (Order order : orders) {
             for (ProductOrder productOrder : order.getProductOrder()) {

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head"></div>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/category"></div>
+<div class="content container">
+    <form class="log" method="post" action="/productreport">
+        <label for="a">ID produktu:</label>
+        <input type="text" class="form-control" name="productId" id="a">
+        <label for="b">Data od</label>
+        <input type="date" class="form-control" name="dateFrom" id="b">
+        <label for="c">Data do</label>
+        <input type="date" class="form-control" name="dateTo" id="c">
+        <input type="submit" class="form-control but" value="Pokaż raport">
+    </form>
+</div>
+</body>
+</html>

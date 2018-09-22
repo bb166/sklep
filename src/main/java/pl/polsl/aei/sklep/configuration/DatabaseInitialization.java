@@ -68,12 +68,12 @@ public class DatabaseInitialization {
 
     private void insertRecordsToWarehouseRelation() throws Exception {
         Series series = new Series();
-        series.setBuyCost(BigDecimal.valueOf(31.11));
+        series.setBuyCost(BigDecimal.valueOf(20));
         series.setName("Seria pierwsza");
 
         Warehouse warehouseCzapka2XS = new Warehouse();
-        warehouseCzapka2XS.setQuantity(44L);
-        warehouseCzapka2XS.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2XS.setQuantity(10L);
+        warehouseCzapka2XS.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2XS.setSeries(series);
         warehouseCzapka2XS.setSize(
                 sizeRepository.findSizeByName("XS")

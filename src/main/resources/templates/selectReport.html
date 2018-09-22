@@ -5,14 +5,11 @@
 <div th:replace="fragments/navbar"></div>
 <div th:replace="fragments/category"></div>
 <div class="content container">
-    <form class="log" method="post" action="/productreport">
-        <label for="a">ID produktu:</label>
-        <input type="text" class="form-control" name="productId" id="a">
-        <label for="b">Data od</label>
-        <input type="date" class="form-control" name="dateFrom" id="b">
-        <label for="c">Data do</label>
-        <input type="date" class="form-control" name="dateTo" id="c">
-        <input type="submit" class="form-control but" value="Pokaż raport">
+    <form id="select" class="log" method="post" action="/">
+        <input type="submit" class="form-control but" value="Raport dla produktu" style="width: 200px"
+               onclick="document.getElementById('select').action='report?type=product';">
+        <input type="submit" class="form-control but" value="Raport zbiorczy" style="width: 200px"
+               onclick="document.getElementById('select').action='report?type=general';">
     </form>
 </div>
 </body>
