@@ -68,8 +68,9 @@ public class DatabaseInitialization {
 
     private void insertRecordsToWarehouseRelation() throws Exception {
         Series series = new Series();
-        series.setBuyCost(BigDecimal.valueOf(20));
+        series.setBuyCost(BigDecimal.valueOf(1));
         series.setName("Seria pierwsza");
+        series.setBuyDate(new Date());
 
         Warehouse warehouseCzapka2XS = new Warehouse();
         warehouseCzapka2XS.setQuantity(10L);
@@ -92,28 +93,28 @@ public class DatabaseInitialization {
 
         Warehouse warehouseCzapka2S = new Warehouse();
         warehouseCzapka2S.setQuantity(44L);
-        warehouseCzapka2S.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2S.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2S.setSeries(series);
         warehouseCzapka2S.setSize(
                 sizeRepository.findSizeByName("S")
         );
         Warehouse warehouseCzapka2M = new Warehouse();
         warehouseCzapka2M.setQuantity(44L);
-        warehouseCzapka2M.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2M.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2M.setSeries(series);
         warehouseCzapka2M.setSize(
                 sizeRepository.findSizeByName("M")
         );
         Warehouse warehouseCzapka2L = new Warehouse();
         warehouseCzapka2L.setQuantity(44L);
-        warehouseCzapka2L.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2L.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2L.setSeries(series);
         warehouseCzapka2L.setSize(
                 sizeRepository.findSizeByName("L")
         );
         Warehouse warehouseCzapka2XL = new Warehouse();
         warehouseCzapka2XL.setQuantity(44L);
-        warehouseCzapka2XL.setSaleCost(BigDecimal.valueOf(12.11));
+        warehouseCzapka2XL.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2XL.setSeries(series);
         warehouseCzapka2XL.setSize(
                 sizeRepository.findSizeByName("XL")
@@ -136,6 +137,7 @@ public class DatabaseInitialization {
         Series series1 = new Series();
         series1.setBuyCost(BigDecimal.valueOf(8.00));
         series1.setName("Seria jakaś tam");
+        series1.setBuyDate(new Date());
 
         Warehouse warehouseCzapka1L = new Warehouse();
         warehouseCzapka1L.setQuantity(31L);
@@ -195,6 +197,7 @@ public class DatabaseInitialization {
         Series series2 = new Series();
         series2.setName("Seria z chin");
         series2.setBuyCost(BigDecimal.valueOf(10.11));
+        series2.setBuyDate(new Date());
 
         Warehouse warehouseSpodnie1XS = new Warehouse();
         warehouseSpodnie1XS.setQuantity(5L);
@@ -242,6 +245,7 @@ public class DatabaseInitialization {
         Series series3 = new Series();
         series3.setName("Seria z turcji");
         series3.setBuyCost(BigDecimal.valueOf(13.12));
+        series3.setBuyDate(new Date());
 
         Warehouse warehouse3 = new Warehouse();
         warehouse3.setQuantity(31L);
@@ -265,6 +269,7 @@ public class DatabaseInitialization {
         Series series4 = new Series();
         series4.setName("Seria z wietnamu");
         series4.setBuyCost(BigDecimal.valueOf(16.12));
+        series4.setBuyDate(new Date());
 
         Warehouse warehouse4 = new Warehouse();
         warehouse4.setQuantity(22L);
@@ -286,6 +291,7 @@ public class DatabaseInitialization {
         Series series5 = new Series();
         series5.setName("Seria z chin");
         series5.setBuyCost(BigDecimal.valueOf(14.12));
+        series5.setBuyDate(new Date());
 
         Warehouse warehouse5 = new Warehouse();
         warehouse5.setQuantity(11L);
@@ -309,6 +315,7 @@ public class DatabaseInitialization {
         Series series6 = new Series();
         series6.setName("Seria z polski");
         series6.setBuyCost(BigDecimal.valueOf(15.12));
+        series6.setBuyDate(new Date());
 
         Warehouse warehouse6 = new Warehouse();
         warehouse6.setQuantity(111L);
@@ -330,6 +337,7 @@ public class DatabaseInitialization {
         Series series7 = new Series();
         series7.setName("Seria z uzbekistanu");
         series7.setBuyCost(BigDecimal.valueOf(11.12));
+        series7.setBuyDate(new Date());
 
         Warehouse warehouse7 = new Warehouse();
         warehouse7.setQuantity(101L);

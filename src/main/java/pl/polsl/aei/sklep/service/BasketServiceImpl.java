@@ -8,6 +8,7 @@ import pl.polsl.aei.sklep.repository.entity.*;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,7 +69,7 @@ public class BasketServiceImpl implements BasketService {
                     }
 
                     Warehouse warehouse = e.getWarehouse().stream()
-                            .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).findAny().get();
+                            .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).min(Comparator.comparing(o -> o.getSeries().getBuyDate())).get();
                     warehouse.setQuantity(warehouse.getQuantity() - 1);
 
                     warehouseRepository.save(warehouse);

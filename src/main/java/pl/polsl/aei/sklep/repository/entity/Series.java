@@ -2,6 +2,7 @@ package pl.polsl.aei.sklep.repository.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,6 +23,9 @@ public class Series {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "series", cascade = CascadeType.ALL)
     private Set<Warehouse> warehouseSet;
+
+    @Column(name = "data_kupna")
+    private Date buyDate;
 
     public Long getId() {
         return id;
@@ -53,6 +57,14 @@ public class Series {
 
     public void setWarehouseSet(Set<Warehouse> warehouseSet) {
         this.warehouseSet = warehouseSet;
+    }
+
+    public Date getBuyDate() {
+        return buyDate;
+    }
+
+    public void setBuyDate(Date buyDate) {
+        this.buyDate = buyDate;
     }
 
     @Override

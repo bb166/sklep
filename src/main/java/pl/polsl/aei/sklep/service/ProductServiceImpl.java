@@ -18,10 +18,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Base64;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
         series.setName("Domyślna seria");
         warehouse.setSeries(series);
         series.setWarehouseSet(Collections.singleton(warehouse));
+        series.setBuyDate(new Date());
 
         productRepository.save(product);
     }
@@ -113,22 +112,24 @@ public class ProductServiceImpl implements ProductService {
         Size size = sizeRepository.findSizeByName(dto.getSize());
         Optional<Product> product = productRepository.findById(productId);
 
-        product.ifPresent(e -> {
-            Optional<Warehouse> first = e.getWarehouse().stream().findAny();
+        product.ifPresent(product1 -> {
+            Optional<Warehouse> first = product1.getWarehouse().stream().findAny();
 
             Warehouse warehouse = new Warehouse();
             warehouse.setQuantity(dto.getQuantity());
-            warehouse.setProduct(e);
+            warehouse.setProduct(product1);
             first.ifPresent(e1 -> warehouse.setSaleCost(e1.getSaleCost()));
             warehouse.setSize(size);
 
             Series series = new Series();
             series.setBuyCost(dto.getBuyCost());
             series.setName("Domyślna seria");
+            series.setWarehouseSet(Collections.singleton(warehouse));
             warehouse.setSeries(series);
+            series.setBuyDate(new Date());
 
-            e.getWarehouse().add(warehouse);
-            productRepository.save(e);
+            product1.getWarehouse().add(warehouse);
+            productRepository.save(product1);
         });
     }
 

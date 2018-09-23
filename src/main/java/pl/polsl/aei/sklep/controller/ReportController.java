@@ -8,21 +8,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.polsl.aei.sklep.repository.OrderRepository;
-import pl.polsl.aei.sklep.repository.entity.Order;
-import pl.polsl.aei.sklep.repository.entity.ProductOrder;
+import pl.polsl.aei.sklep.service.ReportService;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class ReportController {
 
     private OrderRepository orderRepository;
+    private ReportService reportService;
+
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+
+    @Autowired
+    public void setReportService(ReportService reportService) {
+        this.reportService = reportService;
     }
 
     @RequestMapping(value = "/selectReport")
@@ -49,43 +53,20 @@ public class ReportController {
     public ModelAndView showGeneralProfitReport(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Order> orders = orderRepository.findAllByOrderDateBetween(dateFrom, dateTo);
-        Long quantity = orders.stream().flatMap(
-                order -> order.getProductOrder().stream()).mapToLong(ProductOrder::getQuantity).sum();
-        BigDecimal profit = BigDecimal.ZERO;
-        for (Order order : orders) {
-            for (ProductOrder productOrder : order.getProductOrder()) {
-                profit = profit.add(productOrder.getWarehouse().getSaleCost()
-                        .subtract(productOrder.getWarehouse().getSeries().getBuyCost()));
-            }
-        }
-        modelAndView.addObject("quantity", quantity);
-        modelAndView.addObject("profit", profit);
-        modelAndView.setViewName("report");
+        modelAndView.addObject("products", reportService.getGeneralProfitReport(dateFrom, dateTo));
+        modelAndView.addObject("total", reportService.getTotalProfit(dateFrom, dateTo).toString());
+        modelAndView.setViewName("generalReport");
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/productreport", method = RequestMethod.POST)
-    public ModelAndView showProductProfitReport(@RequestParam Long productId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
+    public ModelAndView showProductProfitReport(@RequestParam Long productId,
+                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFrom,
                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTo) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Order> orders = orderRepository.findAllByOrderDateBetween(dateFrom, dateTo);
-        Long quantity = orders.stream().flatMap(order -> order.getProductOrder().stream()
-                .filter(productOrder -> productOrder.getWarehouse().getProduct().getId().equals(productId)))
-                .mapToLong(ProductOrder::getQuantity).sum();
-        BigDecimal profit = BigDecimal.ZERO;
-        for (Order order : orders) {
-            for (ProductOrder productOrder : order.getProductOrder()) {
-                if (productOrder.getWarehouse().getProduct().getId().equals(productId)) {
-                    profit = profit.add(productOrder.getWarehouse().getSaleCost()
-                            .subtract(productOrder.getWarehouse().getSeries().getBuyCost()));
-                }
-            }
-        }
-        modelAndView.addObject("quantity", quantity);
-        modelAndView.addObject("profit", profit);
-        modelAndView.setViewName("report");
+        modelAndView.addObject("product", reportService.getProductProfitReport(productId, dateFrom, dateTo));
+        modelAndView.setViewName("productReport");
         return modelAndView;
     }
 }

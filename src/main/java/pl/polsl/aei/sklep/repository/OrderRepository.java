@@ -11,6 +11,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends CrudRepository<Order, Long> {
     Order findOrderByUserAndOrderDateIsNull(User user);
-
     List<Order> findAllByOrderDateBetween(Date dateFrom, Date dateTo);
 }
