@@ -69,7 +69,7 @@ public class BasketServiceImpl implements BasketService {
                     }
 
                     Warehouse warehouse = e.getWarehouse().stream()
-                            .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).min(Comparator.comparing(o -> o.getSeries().getBuyDate())).get();
+                            .filter(warehouse1 -> warehouse1.getSize().getName().equals(size)).filter(warehouse1 -> warehouse1.getQuantity() > 0).min(Comparator.comparing(o -> o.getSeries().getBuyDate())).get();
                     warehouse.setQuantity(warehouse.getQuantity() - 1);
 
                     warehouseRepository.save(warehouse);
