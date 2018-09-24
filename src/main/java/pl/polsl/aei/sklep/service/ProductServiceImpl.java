@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
             Warehouse warehouse = product.getWarehouse().iterator().next();
             productDetailsDTO.setAvailableCount(quantity.toString());
             productDetailsDTO.setSize(warehouse.getSize().getName());
+            productDetailsDTO.setPrice(NumberFormat.getCurrencyInstance().format(warehouse.getSaleCost()));
 
             return productDetailsDTO;
         });
