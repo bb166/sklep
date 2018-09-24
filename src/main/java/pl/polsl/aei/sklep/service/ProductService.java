@@ -2,6 +2,7 @@ package pl.polsl.aei.sklep.service;
 
 import pl.polsl.aei.sklep.dto.ProductDetailsDTO;
 import pl.polsl.aei.sklep.dto.ProductOnListDTO;
+import pl.polsl.aei.sklep.dto.SizeAvailableDTO;
 import pl.polsl.aei.sklep.dto.WarehouseDTO;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,8 @@ public interface ProductService {
     List<ProductOnListDTO> getAllProductsFromCategory(CategoryName categoryName);
     List<ProductOnListDTO> searchByName(String query);
     Optional<ProductDetailsDTO> getDetailsById(Long id);
+
+    Optional<SizeAvailableDTO> getSizeAvailableById(Long id);
     void insertProductToGroup(String group, ProductDetailsDTO productDetailsDTO, byte[] image) throws IOException;
     void deleteProduct(Long productId);
     void insertWarehouseToProduct(Long productId, WarehouseDTO dto);

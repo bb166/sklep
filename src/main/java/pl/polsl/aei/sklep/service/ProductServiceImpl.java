@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.aei.sklep.dto.ProductDetailsDTO;
 import pl.polsl.aei.sklep.dto.ProductOnListDTO;
+import pl.polsl.aei.sklep.dto.SizeAvailableDTO;
 import pl.polsl.aei.sklep.dto.WarehouseDTO;
 import pl.polsl.aei.sklep.repository.CategoryRepository;
 import pl.polsl.aei.sklep.repository.ProductRepository;
@@ -77,6 +78,23 @@ public class ProductServiceImpl implements ProductService {
 
             return productDetailsDTO;
         });
+    }
+
+    @Override
+    public Optional<SizeAvailableDTO> getSizeAvailableById(Long id) {
+        return productRepository.findById(id).map(product -> {
+            SizeAvailableDTO dto = new SizeAvailableDTO();
+            dto.setXs(getSizeAvailability(product, "XS"));
+            dto.setS(getSizeAvailability(product, "S"));
+            dto.setM(getSizeAvailability(product, "M"));
+            dto.setL(getSizeAvailability(product, "L"));
+            dto.setXl(getSizeAvailability(product, "XL"));
+            return dto;
+        });
+    }
+
+    private String getSizeAvailability(Product product, String sizeName) {
+        return String.valueOf(product.getWarehouse().stream().filter(warehouse -> warehouse.getSize().getName().equals(sizeName)).mapToLong(Warehouse::getQuantity).sum());
     }
 
     @Override

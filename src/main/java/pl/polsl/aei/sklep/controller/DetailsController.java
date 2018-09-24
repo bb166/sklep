@@ -37,6 +37,7 @@ public class DetailsController {
 
         modelAndView.addObject("prod", productService.getDetailsById(id).get());
         modelAndView.addObject("opinions", opinionService.getOpinionsForProduct(id));
+        modelAndView.addObject("size", productService.getSizeAvailableById(id).get());
         modelAndView.addObject("id", id);
         modelAndView.setViewName("productDetails");
 
