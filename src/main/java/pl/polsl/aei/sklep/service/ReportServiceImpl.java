@@ -7,13 +7,11 @@ import pl.polsl.aei.sklep.repository.OrderRepository;
 import pl.polsl.aei.sklep.repository.ProductRepository;
 import pl.polsl.aei.sklep.repository.entity.Order;
 import pl.polsl.aei.sklep.repository.entity.ProductOrder;
-import pl.polsl.aei.sklep.repository.entity.Warehouse;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,13 +39,6 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public BigDecimal getTotalProfit(Date dateFrom, Date dateTo) {
         List<Order> orders = orderRepository.findAllByOrderDateBetween(dateFrom, dateTo);
-//        Optional<BigDecimal> saleCost = orders.stream().flatMap(order -> order.getProductOrder().stream().map(ProductOrder::getWarehouse))
-//                .map(Warehouse::getSaleCost).findAny();
-//        List<Warehouse> warehouseList = orders.stream().flatMap(order -> order.getProductOrder().stream().map(ProductOrder::getWarehouse))
-//                .collect(Collectors.toList());
-//        Long soldCount = orders.stream().flatMap(order -> order.getProductOrder().stream()).mapToLong(ProductOrder::getQuantity).sum();
-//        return calculateProfit(orders, soldCount, saleCost, warehouseList);
-
         BigDecimal profit = BigDecimal.ZERO;
         for (Order order : orders) {
             for (ProductOrder productOrder : order.getProductOrder()) {
@@ -70,18 +61,12 @@ public class ReportServiceImpl implements ReportService {
             )
                     .mapToLong(ProductOrder::getQuantity).sum();
             reportDTO.setSoldCount(soldCount.toString());
-            reportDTO.setProfit(getProfitForProduct(orders, productId, soldCount).toString());
+            reportDTO.setProfit(getProfitForProduct(orders, productId).toString());
         });
         return reportDTO;
     }
 
-    private BigDecimal getProfitForProduct(List<Order> orders, Long productId, Long soldCount) {
-        Optional<BigDecimal> saleCost = orders.stream().flatMap(order -> order.getProductOrder().stream().map(ProductOrder::getWarehouse))
-                .filter(warehouse -> warehouse.getProduct().getId().equals(productId)).map(Warehouse::getSaleCost).findAny();
-        List<Warehouse> warehouseList = orders.stream().flatMap(order -> order.getProductOrder().stream().map(ProductOrder::getWarehouse))
-                .filter(warehouse -> warehouse.getProduct().getId().equals(productId))
-                .collect(Collectors.toList());
-
+    private BigDecimal getProfitForProduct(List<Order> orders, Long productId) {
         BigDecimal profit = BigDecimal.ZERO;
         for (Order order : orders) {
             for (ProductOrder productOrder : order.getProductOrder()) {
@@ -90,21 +75,6 @@ public class ReportServiceImpl implements ReportService {
                             .subtract(productOrder.getWarehouse().getSeries().getBuyCost()));
                 }
             }
-        }
-        return profit;//calculateProfit(orders, soldCount, saleCost, warehouseList);
-    }
-
-    private BigDecimal calculateProfit(List<Order> orders, Long soldCount, Optional<BigDecimal> saleCost, List<Warehouse> warehouseList) {
-        BigDecimal buyCost = BigDecimal.ZERO;
-        for (Warehouse warehouse : warehouseList) {
-            Long quantity = orders.stream().flatMap(order -> order.getProductOrder().stream())
-                    .filter(productOrder -> productOrder.getWarehouse().equals(warehouse))
-                    .mapToLong(ProductOrder::getQuantity).sum();
-            buyCost = buyCost.add(warehouse.getSeries().getBuyCost().multiply(BigDecimal.valueOf(quantity)));
-        }
-        BigDecimal profit = BigDecimal.ZERO;
-        if (saleCost.isPresent()) {
-            profit = profit.add(saleCost.get()).multiply(BigDecimal.valueOf(soldCount)).subtract(buyCost);
         }
         return profit;
     }

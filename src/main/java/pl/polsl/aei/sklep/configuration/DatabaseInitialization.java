@@ -73,7 +73,7 @@ public class DatabaseInitialization {
         series.setBuyDate(new Date());
 
         Warehouse warehouseCzapka2XS = new Warehouse();
-        warehouseCzapka2XS.setQuantity(10L);
+        warehouseCzapka2XS.setQuantity(1L);
         warehouseCzapka2XS.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2XS.setSeries(series);
         warehouseCzapka2XS.setSize(
@@ -92,28 +92,28 @@ public class DatabaseInitialization {
         Category category = categoryRepository.findCategoryByName("Głowa");
 
         Warehouse warehouseCzapka2S = new Warehouse();
-        warehouseCzapka2S.setQuantity(44L);
+        warehouseCzapka2S.setQuantity(1L);
         warehouseCzapka2S.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2S.setSeries(series);
         warehouseCzapka2S.setSize(
                 sizeRepository.findSizeByName("S")
         );
         Warehouse warehouseCzapka2M = new Warehouse();
-        warehouseCzapka2M.setQuantity(44L);
+        warehouseCzapka2M.setQuantity(1L);
         warehouseCzapka2M.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2M.setSeries(series);
         warehouseCzapka2M.setSize(
                 sizeRepository.findSizeByName("M")
         );
         Warehouse warehouseCzapka2L = new Warehouse();
-        warehouseCzapka2L.setQuantity(44L);
+        warehouseCzapka2L.setQuantity(0L);
         warehouseCzapka2L.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2L.setSeries(series);
         warehouseCzapka2L.setSize(
                 sizeRepository.findSizeByName("L")
         );
         Warehouse warehouseCzapka2XL = new Warehouse();
-        warehouseCzapka2XL.setQuantity(44L);
+        warehouseCzapka2XL.setQuantity(0L);
         warehouseCzapka2XL.setSaleCost(BigDecimal.valueOf(2));
         warehouseCzapka2XL.setSeries(series);
         warehouseCzapka2XL.setSize(
